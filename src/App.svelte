@@ -2,7 +2,7 @@
 
 <script>
   import { afterUpdate } from 'svelte';
-  import Button from "./Button.svelte"
+    import { element } from 'svelte/internal';
 
   afterUpdate(() => {
     document.querySelector('.js-todo-input').focus();
@@ -35,6 +35,13 @@
     todoItems = todoItems.filter(item => item.id !== Number(id));
   }
 
+  function clearTodo() {      
+    todoItems.forEach(function(element){      
+      if (element.checked == true){     /* #controlFlow */
+        deleteTodo(element.id)
+      }
+    })
+  }
 
 </script>
 
@@ -62,5 +69,8 @@
   <form on:submit|preventDefault={addTodo}>
     <input class="js-todo-input" type="text" aria-label="Enter a new todo item" placeholder="E.g. Finish CS 178 Homework" bind:value={newItem}>     <!-- #Reactive --> 
   </form>
+  <button class="clear list" on:click={() => clearTodo(todoItems)}>     <!-- #Reactive -->
+    clear completed items
+  </button>
   </div>
 </main>
